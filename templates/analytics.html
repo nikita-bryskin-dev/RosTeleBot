@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Аналитика</title>
+  <link rel="stylesheet" href="/static/analytics.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Аналитика заявок</h1>
+
+  <div style="text-align:center;">
+    <button onclick="filterTable('все')">Все</button>
+    <button onclick="filterTable('открыто')">Открытые</button>
+    <button onclick="filterTable('закрыто')">Закрытые</button>
+    <button onclick="toggleChart()">Показать / Скрыть график</button>
+    <select id="chartTypeSelect" onchange="updateChartType()" style="margin-left: 10px; padding: 10px;">
+      <option value="bar">Столбчатая</option>
+      <option value="pie">Круговая</option>
+      <option value="line">Линейная</option>
+      <option value="doughnut">Кольцевая</option>
+    </select>
+  </div>
+
+  <table id="stat-table">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">ID</th>
+        <th onclick="sortTable(1)">Статус</th>
+        <th onclick="sortTable(2)">Дата</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in stats %}
+        <tr>
+          <td>{{ row[0] }}</td>
+          <td>{{ row[1] }}</td>
+          <td>{{ row[2] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="chart-container" style="background-color: rgb(255, 242, 242); padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h2>График заявок</h2>
+    <canvas id="statusChart" width="400" height="150"></canvas>
+  </div>
+
+
+
+  <script>
+    let chartInstance = null;
+
+    function sortTable(n) {
+      const table = document.getElementById("stat-table");
+      let switching = true;
+      let dir = "asc", switchcount = 0;
+
+      while (switching) {
+        switching = false;
+        const rows = table.rows;
+
+        for (let i = 1; i < rows.length - 1; i++) {
+          let x = rows[i].getElementsByTagName("TD")[n];
+          let y = rows[i + 1].getElementsByTagName("TD")[n];
+          let shouldSwitch = false;
+
+          if (dir === "asc" ? x.innerHTML > y.innerHTML : x.innerHTML < y.innerHTML) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchcount++;
+        } else if (switchcount === 0 && dir === "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+
+    function filterTable(status) {
+      const rows = document.querySelectorAll("#stat-table tbody tr");
+      rows.forEach(row => {
+        const cell = row.getElementsByTagName("td")[1];
+        row.style.display = (status === "все" || cell.textContent === status) ? "" : "none";
+      });
+    }
+
+    function toggleChart() {
+      const container = document.getElementById("chart-container");
+      container.style.display = container.style.display === "none" ? "block" : "none";
+    }
+
+    function updateChartType() {
+      const type = document.getElementById("chartTypeSelect").value;
+      drawChart(type);
+    }
+
+    function drawChart(type = "bar") {
+  const statuses = [...document.querySelectorAll("#stat-table tbody tr td:nth-child(2)")]
+    .map(td => td.textContent);
+  const opened = statuses.filter(s => s === "открыто").length;
+  const closed = statuses.filter(s => s === "закрыто").length;
+
+  const ctx = document.getElementById('statusChart').getContext('2d');
+  if (chartInstance) chartInstance.destroy();
+
+  chartInstance = new Chart(ctx, {
+    type: type,
+    data: {
+      labels: ['Открыто', 'Закрыто'],
+      datasets: [{
+        label: 'Заявки',
+        data: [opened, closed],
+        backgroundColor: ['#42a5f1', '#ff7043']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: type !== 'bar' && type !== 'line' } },
+      // Убираем фон у самого холста
+      backgroundColor: '#FFFFFF',
+    }
+    });
+    }
+
+
+    window.onload = () => {
+      drawChart(); // По умолчанию — столбчатая
+    };
+  </script>
+</body>
+</html>

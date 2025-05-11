@@ -1,0 +1,70 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #c040af;
+}
+
+button {
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  margin: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ffffff;
+}
+
+th {
+  background-color: #263238;
+  cursor: pointer;
+  color: #90caf9;
+}
+
+tr:hover {
+  background-color: #2c2c2c;
+}
+
+canvas {
+  margin-top: 20px;
+  display: block;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#chart-container {
+  background-color: white;
+  padding: 20px;
+  max-width: 500px; /* Ограничиваем ширину контейнера */
+  margin: 0 auto; /* Центрируем контейнер */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+}
