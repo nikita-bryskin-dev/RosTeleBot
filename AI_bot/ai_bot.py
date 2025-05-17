@@ -7,9 +7,9 @@ from g4f.client import Client
 client = Client()
 nlp = spacy.load("ru_core_news_sm")
 
-DIALOG_FILE = "AI_bot/Dialog_memory.txt"
-PROMPT_FILE = "AI_bot/Rules_Bot_Init.txt"
-FEEDBACK_FILE = "AI_bot/Feedback.txt"
+DIALOG_FILE = "AI_bot/data/Dialog_memory.txt"
+PROMPT_FILE = "AI_bot/data/Rules_Bot_Init.txt"
+FEEDBACK_FILE = "AI_bot/data/Feedback.txt"
 last_message_time = time.time()
 
 def read_file(path):

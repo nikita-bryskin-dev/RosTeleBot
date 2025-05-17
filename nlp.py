@@ -42,7 +42,7 @@ def get_bot_response(user_message):
     best_match_idx = similarities.argmax()
     best_score = similarities[0][best_match_idx]
 
-    if best_score > 0.4:
+    if best_score > 0.5:
         return df['answer'][best_match_idx]
     else:
         return handle_user_message(user_message)
