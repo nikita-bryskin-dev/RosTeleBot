@@ -6,6 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+from AI_bot.ai_bot import handle_user_message
+
 # Инициализация NLTK
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -43,4 +45,4 @@ def get_bot_response(user_message):
     if best_score > 0.4:
         return df['answer'][best_match_idx]
     else:
-        return "Извините, я не совсем понял. Можете уточнить вопрос или связаться с оператором?"
+        return handle_user_message(user_message)
