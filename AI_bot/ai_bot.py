@@ -72,10 +72,10 @@ def collect_feedback(user_input, messages):
         question = messages[-2]['content']
         answer = messages[-1]['content']
         if feedback_type == "positive":
-            feedback = "Положительный фидбэк: Спасибо за помощь!"
+            feedback = "Положительная обратная связь: Спасибо за помощь!"
             annotated = f"\nПример твоего хорошего ответа:\nВопрос: {question}\nОтвет: {answer}\n"
         else:
-            feedback = "Отрицательный фидбэк: Ответ не был полезен."
+            feedback = "Отрицательная обратная связь: Ответ не был полезен."
             annotated = f"\nПример твоего плохого ответа:\nВопрос: {question}\nОтвет: {answer}\n"
 
         entry = f"Вопрос: {question}\nОтвет: {answer}\nОценка: {feedback}\n\n"
@@ -110,7 +110,7 @@ def handle_user_message(user_input):
         answer = response.choices[0].message.content
     except Exception as e:
         print(f"Ошибка при обращении: {e}")
-        return "Произошла ошибка при обращении к модели."
+        return ""
 
     messages.append({"role": "assistant", "content": answer})
     save_messages(messages)

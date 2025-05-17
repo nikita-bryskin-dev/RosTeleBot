@@ -4,5 +4,5 @@ spacy
 ru-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.7.0/ru_core_news_sm-3.7.0-py3-none-any.whl
 pandas
 nltk
-sklearn
+scikit-learn
 nltk
