@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-purple">База знаний</h1>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('add_pair') }}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Новая запись
+            </a>
+            <div class="btn-group">
+                <a href="{{ url_for('export_csv') }}" class="btn btn-outline-purple">
+                    <i class="bi bi-download"></i> Экспорт
+                </a>
+                <a href="{{ url_for('import_csv') }}" class="btn btn-outline-purple">
+                    <i class="bi bi-upload"></i> Импорт
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width: 60px">ID</th>
+                <th>Вопрос</th>
+                <th>Ответ</th>
+                <th style="width: 120px">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pair in qa_pairs %}
+                <tr>
+                    <td class="text-muted">#{{ pair[0] }}</td>
+                    <td>{{ pair[1] }}</td>
+                    <td class="text-muted">{{ pair[2][:50] }}...</td>
+                    <td>
+                        <a href="{{ url_for('edit_pair', pair_id=pair[0]) }}" 
+                           class="btn btn-sm btn-purple">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        <i class="bi bi-info-circle fs-4 d-block mb-2"></i>
+                        Нет записей в базе данных
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
